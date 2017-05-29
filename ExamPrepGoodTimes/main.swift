@@ -20,12 +20,12 @@ import Foundation
  
  */
 var inputToProcess : String = ""
-
+var ottawaTime : Int = 0
 // Loop until valid input is received
 while inputToProcess == "" {
     
     // Show the prompt
-    print("Ask the question here? ", terminator: "")
+    print("", terminator: "")
     
     // Get the user's input
     var input : String?
@@ -33,6 +33,18 @@ while inputToProcess == "" {
     
     // Use optional binding to see if the string can be unwrapped (to see if it is not nil)
     if let notNilInput = input {
+        if let inputAsInteger = Int(notNilInput) {
+            if (inputAsInteger - ((inputAsInteger/100) * 100)) >= 23 {
+                if (inputAsInteger - (inputAsInteger%100)) >= 59 {
+                if inputAsInteger%100 <= 23 && inputAsInteger%100 >= 0{
+                ottawaTime = inputAsInteger
+                }
+            }
+            } else {
+                print("\n")
+                print("Please enter a value between 0 and 2359")
+            }
+        }
         
         // You probably need to add additional checks to be sure the
         // input received is valid
@@ -56,8 +68,20 @@ while inputToProcess == "" {
  */
 
 // Add 'process' code below....
-print("replace with process logic")
-
+var differentPlaces : [String] = [" in Ottawa", " in Victoria", " in Edmonton", " in Winnipeg", " in Toronto", " in Halifax", " in St. John's"]
+var timeDifferences : [Int] = [0, -300, -200, -100, 0, 100, 130]
+var timesAtPlaces : [Int] = []
+for i in 0...differentPlaces.count {
+    if timeDifferences[i]%100 != 0  && (ottawaTime - ((ottawaTime/100) * 100)) >= 30 && ottawaTime + timeDifferences[i] !> 2359{
+        ottawaTime + (timeDifferences[i]/100) * 100
+        ottawaTime + ((ottawaTime%100 + timeDifferences[i]%100)-60)
+    } else if ottawaTime + timeDifferences[i] > 2359 {
+        ottawaTime + timeDifferences[i]
+        ottawaTime - 2400
+    } else {
+        ottawaTime + timeDifferences[i]
+    }
+}
 
 /*
  
@@ -70,4 +94,6 @@ print("replace with process logic")
  */
 
 // Add 'output' code below... replace what is here as needed.
-print("The input given was: \(inputToProcess)")
+for i in 0...differentPlaces.count {
+print("\(ottawaTime)\(differentPlaces[i])")
+}
